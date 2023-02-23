@@ -1,63 +1,85 @@
-﻿int opcao = 0;
-do
+﻿using System;
+using System.Collections.Generic;
+
+class Program
 {
-    Console.WriteLine("Digite a opção desejada:");
-    Console.WriteLine("1 - Para encriptar.");
-    Console.WriteLine("2 - Para desencriptar.");
-    Console.WriteLine("0 - Para sair.");
-    opcao = int.Parse(Console.ReadLine());
-
-    switch (opcao)
+    private static readonly Dictionary<char, char> codigos = new()
     {
-        case 1:
-            Console.WriteLine("Digite o texto que deseja encriptar:");
-            string textoEncriptar = Console.ReadLine();
-            string textoEncriptado = EncriptarTexto(textoEncriptar);
-            Console.WriteLine("Texto encriptado: " + textoEncriptado);
-            Console.WriteLine("Pressione Enter para continuar.");
-            Console.ReadLine();
-            break;
-        case 2:
-            Console.WriteLine("Digite o texto que deseja desencriptar:");
-            string textoDesencriptar = Console.ReadLine();
-            string textoDesencriptado = DesencriptarTexto(textoDesencriptar);
-            Console.WriteLine("Texto desencriptado: " + textoDesencriptado);
-            Console.WriteLine("Pressione Enter para continuar.");
-            Console.ReadLine();
-            break;
-        case 0:
-            Console.WriteLine("Saindo...");
-            break;
-        default:
-            Console.WriteLine("Opção inválida. Pressione Enter para continuar.");
-            Console.ReadLine();
-            break;
-    }
-} while (opcao != 0);
+        {'a', 'K'}, {'b', 'R'}, {'c', 'V'}, {'d', 'A'}, {'e', 'L'}, {'f', 'U'},
+        {'g', 'I'}, {'h', 'R'}, {'i', 'M'}, {'j', 'S'}, {'k', 'P'}, {'l', 'B'},
+        {'m', 'Y'}, {'n', 'J'}, {'o', 'D'}, {'p', 'C'}, {'q', 'E'}, {'r', 'T'},
+        {'s', 'F'}, {'t', 'W'}, {'u', 'Z'}, {'v', 'G'}, {'w', 'N'}, {'y', 'H'},
+        {'z', 'O'}, {'0', '#'}, {'1', '!'}, {'2', '$'}, {'3', '%'}, {'4', '&'},
+        {'5', '|'}, {'6', '='}, {'7', '*'}, {'8', '/'}, {'9', '<'}, {' ', '_'}
+    };
 
-
-static string EncriptarTexto(string texto)
-{
-    string textoEncriptado = "";
-    foreach (char c in texto)
+    static void Main(string[] args)
     {
-        int valorAscii = (int)c;
-        valorAscii += 7;
-        char caractereEncriptado = (char)valorAscii;
-        textoEncriptado += caractereEncriptado;
-    }
-    return textoEncriptado;
-}
+        while (true)
+        {
+            Console.WriteLine("Digite a opção desejada");
+            Console.WriteLine("1 - Para encriptar.");
+            Console.WriteLine("2 - Para decriptar.");
+            Console.WriteLine("3 - Para sair.");
+            var opcao = int.Parse(Console.ReadLine());
 
-static string DesencriptarTexto(string texto)
-{
-    string textoDesencriptado = "";
-    foreach (char c in texto)
-    {
-        int valorAscii = (int)c;
-        valorAscii -= 7;
-        char caractereDesencriptado = (char)valorAscii;
-        textoDesencriptado += caractereDesencriptado;
+            switch (opcao)
+            {
+                case 1:
+                    Console.WriteLine("Digite o texto para encriptar:");
+                    var textoEncriptar = Console.ReadLine();
+                    var textoEncriptado = EncriptarTexto(textoEncriptar);
+                    Console.WriteLine($"Texto encriptado: {textoEncriptado}");
+                    break;
+
+                case 2:
+                    Console.WriteLine("Digite o texto para decriptar:");
+                    var textoDecriptar = Console.ReadLine();
+                    var textoDecriptado = DecriptarTexto(textoDecriptar);
+                    Console.WriteLine($"Texto decriptado: {textoDecriptado}");
+                    break;
+
+                case 3:
+                    return;
+
+                default:
+                    Console.WriteLine("Opção inválida.");
+                    break;
+            }
+        }
     }
-    return textoDesencriptado;
+
+    static string EncriptarTexto(string texto)
+    {
+        string textoEncriptado = "";
+        foreach (char c in texto.ToLower())
+        {
+            if (codigos.ContainsKey(c))
+            {
+                textoEncriptado += codigos[c];
+            }
+            else
+            {
+                textoEncriptado += c;
+            }
+        }
+        return textoEncriptado;
+    }
+
+    static string DecriptarTexto(string texto)
+    {
+        string textoDecriptado = "";
+        foreach (char c in texto.ToUpper())
+        {
+            if (codigos.ContainsValue(c))
+            {
+                textoDecriptado += codigos.FirstOrDefault(x => x.Value == c).Key;
+            }
+            else
+            {
+                textoDecriptado += c;
+            }
+        }
+        return textoDecriptado;
+    }
 }
