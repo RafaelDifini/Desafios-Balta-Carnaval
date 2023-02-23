@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 class Program
 {
     private static readonly Dictionary<char, char> codigos = new()
@@ -40,6 +38,7 @@ class Program
                     break;
 
                 case 3:
+                    Console.WriteLine("Sainddo..");
                     return;
 
                 default:
