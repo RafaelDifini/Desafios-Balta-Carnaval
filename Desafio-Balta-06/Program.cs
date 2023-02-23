@@ -38,7 +38,7 @@ class Program
                     break;
 
                 case 3:
-                    Console.WriteLine("Sainddo..");
+                    Console.WriteLine("Saindo..");
                     return;
 
                 default:
